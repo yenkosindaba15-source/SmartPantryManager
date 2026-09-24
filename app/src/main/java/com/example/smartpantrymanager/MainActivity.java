@@ -1,8 +1,9 @@
 package com.example.smartpantrymanager;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.*;
 import androidx.recyclerview.widget.*;
 import android.widget.*;
 import java.util.ArrayList;
@@ -40,7 +41,15 @@ public class MainActivity extends AppCompatActivity {
     }
     private void loadIngredients(){
         ArrayList<Ingredient> ingredients = databaseHelper.getAllIngredients();
-        adapter = new IngredientAdapter(this, ingredients);
+
+        adapter = new IngredientAdapter(this, ingredients, ingredient -> {
+            new AlertDialog.Builder(this).setTitle("Delete Ingredient").setMessage("Are you sure you want to delete " + ingredient.getName() + " ?").setPositiveButton("Delete", (dialog, which) -> {
+                databaseHelper.deleteIngredient(ingredient.getId());
+
+                loadIngredients();
+            }).setNegativeButton("Cancel", null).show();
+        });
+
         recyclerIngredients.setAdapter(adapter);
     }
 }
