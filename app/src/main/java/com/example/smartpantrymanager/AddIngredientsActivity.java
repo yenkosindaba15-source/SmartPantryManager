@@ -11,6 +11,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
     private Button btnSave;
 
     private DatabaseHelper databaseHelper;
+    private Ingredient selectedIngredient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,22 +25,59 @@ public class AddIngredientsActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        btnSave.setOnClickListener(e -> {
-            String name = etName.getText().toString().trim();
-            String quantityText = etQuantity.getText().toString().trim();
-            String unit = etUnit.getText().toString().trim();
+        if (getIntent().hasExtra("ingredient")) {
+            selectedIngredient = (Ingredient) getIntent().getSerializableExtra("ingredient");
 
-            if(name.isEmpty() || quantityText.isEmpty() || unit.isEmpty()){
-                Toast.makeText(AddIngredientsActivity.this, "Please fill in all fields", Toast.LENGTH_LONG).show();
-                return;
+            if (selectedIngredient != null) {
+                etName.setText(selectedIngredient.getName());
+                etQuantity.setText(String.valueOf(selectedIngredient.getQuantity()));
+                etUnit.setText(selectedIngredient.getUnit());
+                btnSave.setText("Update Ingredient");
             }
-            int quantity = Integer.parseInt(quantityText);
+        }
+        btnSave.setOnClickListener(v -> saveIngredient());
+    }
+    private void saveIngredient() {
+        String name = etName.getText().toString().trim();
+        String quantityText = etQuantity.getText().toString().trim();
+        String unit = etUnit.getText().toString().trim();
 
-            Ingredient ingredient = new Ingredient(name, quantity, unit);
-            databaseHelper.insertIngredient(ingredient);
+        if (name.isEmpty() || quantityText.isEmpty() || unit.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            Toast.makeText(AddIngredientsActivity.this, "Ingredient saved", Toast.LENGTH_SHORT).show();
-            finish();
-        });
+        int quantity = Integer.parseInt(quantityText);
+
+        if (quantity <= 0) {
+            Toast.makeText(this, "Quantity must be greater than zero", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (selectedIngredient == null) {
+            Ingredient newIngredient = new Ingredient(name, quantity, unit);
+            long result = databaseHelper.insertIngredient(newIngredient);
+
+            if (result != -1) {
+                Toast.makeText(this, "Ingredient saved", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Ingredient could not be saved", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            selectedIngredient.setName(name);
+            selectedIngredient.setQuantity(quantity);
+            selectedIngredient.setUnit(unit);
+
+            int rowsUpdated = databaseHelper.updateIngredient(selectedIngredient);
+
+            if (rowsUpdated > 0) {
+                Toast.makeText(this, "Ingredient updated", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Ingredient could not be updated", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

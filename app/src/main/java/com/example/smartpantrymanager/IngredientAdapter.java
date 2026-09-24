@@ -2,16 +2,18 @@ package com.example.smartpantrymanager;
 
 import android.view.*;
 import android.widget.TextView;
+import android.content.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
     private ArrayList<Ingredient> ingredients;
-
-    public IngredientAdapter(ArrayList<Ingredient> ingredients) {
+    public IngredientAdapter(Context context, ArrayList<Ingredient> ingredients) {
+        this.context = context;
         this.ingredients = ingredients;
     }
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView IngredientName;
@@ -38,6 +40,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         Ingredient ingredient = ingredients.get(position);
         holder.IngredientName.setText(ingredient.getName());
         holder.IngredientDetails.setText(ingredient.getQuantity() + " " + ingredient.getUnit());
+        holder.itemView.setOnClickListener(e -> {
+            Intent intent = new Intent(context, AddIngredientsActivity.class);
+            intent.putExtra("ingredient", ingredient);
+
+            context.startActivity(intent);
+        });
     }
     @Override
     public int getItemCount() {

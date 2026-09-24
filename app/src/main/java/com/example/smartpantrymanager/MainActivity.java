@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void loadIngredients(){
         ArrayList<Ingredient> ingredients = databaseHelper.getAllIngredients();
-        adapter = new IngredientAdapter(ingredients);
+        adapter = new IngredientAdapter(this, ingredients);
         recyclerIngredients.setAdapter(adapter);
     }
 }
