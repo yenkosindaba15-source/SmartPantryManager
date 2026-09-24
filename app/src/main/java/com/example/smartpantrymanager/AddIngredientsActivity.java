@@ -9,6 +9,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
     private EditText etQuantity;
     private EditText etUnit;
     private Button btnSave;
+    private TextView titleHeading;
 
     private DatabaseHelper databaseHelper;
     private Ingredient selectedIngredient;
@@ -18,6 +19,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredients);
 
+        titleHeading = findViewById(R.id.titleHeading);
         etName = findViewById(R.id.etName);
         etQuantity = findViewById(R.id.etQuantity);
         etUnit = findViewById(R.id.etUnit);
@@ -32,6 +34,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                 etName.setText(selectedIngredient.getName());
                 etQuantity.setText(String.valueOf(selectedIngredient.getQuantity()));
                 etUnit.setText(selectedIngredient.getUnit());
+                titleHeading.setText("Update Ingredient");
                 btnSave.setText("Update Ingredient");
             }
         }

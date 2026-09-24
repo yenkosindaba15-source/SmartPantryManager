@@ -46,12 +46,20 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
         holder.IngredientName.setText(ingredient.getName());
         holder.IngredientDetails.setText(ingredient.getQuantity() + " " + ingredient.getUnit());
+
         holder.itemView.setOnClickListener(e -> {
+            if(context instanceof MainActivity){
+                MainActivity mainActivity = (MainActivity) context;
+
+                if(!mainActivity.isUpdateMode()){
+                    return;
+                }
+            }
             Intent intent = new Intent(context, AddIngredientsActivity.class);
             intent.putExtra("ingredient", ingredient);
-
             context.startActivity(intent);
         });
+
         holder.itemView.setOnLongClickListener(e -> {
             listener.onLongClick(ingredient);
             return true;

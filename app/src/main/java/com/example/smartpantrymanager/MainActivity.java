@@ -10,9 +10,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnAddIngredient;
+    private Button btnUpdateIngredient;
+    private Button btnDeleteIngredient;
     private RecyclerView recyclerIngredients;
     private IngredientAdapter adapter;
     private DatabaseHelper databaseHelper;
+
+    private boolean updateMode = false;
+    private boolean deleteMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,22 @@ public class MainActivity extends AppCompatActivity {
         btnAddIngredient.setOnClickListener(e -> {
             Intent intent = new Intent(MainActivity.this, AddIngredientsActivity.class);
             startActivity(intent);
+        });
+
+        btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
+        btnUpdateIngredient.setOnClickListener(e -> {
+            updateMode = true;
+            deleteMode = false;
+
+            Toast.makeText(this, "Select an ingredient to update", Toast.LENGTH_SHORT).show();
+        });
+
+        btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
+        btnDeleteIngredient.setOnClickListener(e -> {
+            deleteMode = true;
+            updateMode = false;
+
+            Toast.makeText(this, "Select ingredient(s) to delete", Toast.LENGTH_SHORT).show();
         });
 
         recyclerIngredients = findViewById(R.id.recyclerIngredients);
@@ -51,5 +72,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recyclerIngredients.setAdapter(adapter);
+    }
+
+    public boolean isUpdateMode(){
+        return updateMode;
     }
 }
