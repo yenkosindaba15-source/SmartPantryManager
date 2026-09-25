@@ -7,18 +7,45 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
+    private RecyclerView recyclerRecipes;
+    private RecipeAdapter recipeAdapter;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recipe);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        recyclerRecipes = findViewById(R.id.recyclerRecipes);
+        databaseHelper = new DatabaseHelper(this);
+        recyclerRecipes.setLayoutManager(new LinearLayoutManager(this));
+
+        insertSampleRecipes();
+
+        loadRecipes();
+    }
+
+    private void insertSampleRecipes(){
+        if(databaseHelper.getAllRecipes().isEmpty()){
+            databaseHelper.insertRecipe(new Recipe("Cheese Omlette", "A fluffy omlette made with eggs, cheese and butter."));
+            databaseHelper.insertRecipe(new Recipe("Chicken Rice Bowl", "Chicken breast served with rice and onions."));
+            databaseHelper.insertRecipe(new Recipe("Tomato Sandwich", "Bread with tomatoes and butter."));
+            databaseHelper.insertRecipe(new Recipe("Buttered Toast", "Toasted bread with butter."));
+            databaseHelper.insertRecipe(new Recipe("Vegetable Rice", "Rice cooked with onions and tomatoes."));
+        }
+    }
+
+    private void loadRecipes(){
+        ArrayList<Recipe> recipes = databaseHelper.getAllRecipes();
+
+        recipeAdapter = new RecipeAdapter(recipes);
+
+        recyclerRecipes.setAdapter(recipeAdapter);
     }
 }
