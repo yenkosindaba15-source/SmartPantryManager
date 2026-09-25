@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean updateMode = false;
     private boolean deleteMode = false;
     private ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
+    private Button btnRecipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
         btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
         recyclerIngredients = findViewById(R.id.recyclerIngredients);
+        btnRecipes = findViewById(R.id.btnRecipes);
         databaseHelper = new DatabaseHelper(this);
 
         recyclerIngredients.setLayoutManager(new LinearLayoutManager(this));
@@ -40,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 performDelete();
             }
+        });
+
+        btnRecipes.setOnClickListener( e -> {
+            Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
+
+            startActivity(intent);
         });
 
         loadIngredients();

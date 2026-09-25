@@ -9,13 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    //Ingredients constants
     private static final String DATABASE_NAME = "pantry.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String TABLE_INGREDIENTS = "ingredients";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_QUANTITY = "quantity";
     private static final String COLUMN_UNIT = "unit";
+
+    //Recipe constants
+    public static final String TABLE_RECIPES = "recipes";
+    public static final String COLUMN_RECIPE_ID = "id";
+    public static final String COLUMN_RECIPE_NAME = "name";
+    public static final String COLUMN_RECIPE_DESCRIPTION = "description";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,11 +39,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         ")";
 
         db.execSQL(createTable);
+
+        String createRecipesTable = "CREATE TABLE " + TABLE_RECIPES + " (" +
+                COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_RECIPE_NAME + " TEXT NOT NULL, " +
+                COLUMN_RECIPE_DESCRIPTION + " TEXT NOT NULL)";
+
+        db.execSQL(createRecipesTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INGREDIENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPES);
         onCreate(db);
     }
 
@@ -75,6 +90,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return ingredients;
+    }
+
+    public long insertRecipe(Recipe recipe){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_RECIPE_NAME, recipe.getName());
+        values.put(COLUMN_RECIPE_DESCRIPTION, recipe.getDescription());
+
+        long result = db.insert(TABLE_RECIPES, null, values);
+
+        db.close();
+        return result;
+    }
+
+    public ArrayList<Recipe> getAllRecipes(){
+        ArrayList<Recipe> recipes = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_RECIPES, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Recipe recipe = new Recipe();
+
+                recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_ID)));
+                recipe.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_NAME)));
+                recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_DESCRIPTION)));
+
+                recipes.add(recipe);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return recipes;
     }
 
     //update method

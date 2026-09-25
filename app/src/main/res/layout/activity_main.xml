@@ -21,12 +21,19 @@
 
     <TextView
         android:id="@+id/Pantry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Pantry Ingredients"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnRecipes"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Recipes" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerIngredients"
