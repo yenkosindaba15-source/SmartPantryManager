@@ -11,6 +11,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         void onIngredientSelected(Ingredient ingredient);
     }
 
+    private ArrayList<Ingredient> selectedIngredients;
     private final ArrayList<Ingredient> ingredients;
     private final boolean selectionMode;
     private final OnIngredientSelectedListener listener;
@@ -56,7 +57,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             holder.checkIngredient.setVisibility(View.GONE);
         }
 
-        holder.checkIngredient.setChecked(false);
+        holder.checkIngredient.setChecked(selectedIngredients.contains(ingredient));
 
         holder.itemView.setOnClickListener(v -> {
             if (!selectionMode) {

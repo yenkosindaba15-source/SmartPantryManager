@@ -1,6 +1,7 @@
 package com.example.smartpantrymanager;
 
 import android.content.Intent;
+import android.health.connect.datatypes.units.Length;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.*;
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private boolean updateMode = false;
     private boolean deleteMode = false;
+    private ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
+    private Button btnDeleteSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +29,37 @@ public class MainActivity extends AppCompatActivity {
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
         btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
         recyclerIngredients = findViewById(R.id.recyclerIngredients);
+        btnDeleteSelected = findViewById(R.id.btnDeleteSelected);
+
         databaseHelper = new DatabaseHelper(this);
+
         recyclerIngredients.setLayoutManager(new LinearLayoutManager(this));
+
         btnAddIngredient.setOnClickListener(v -> showAddConfirmation());
         btnUpdateIngredient.setOnClickListener(v -> enterUpdateMode());
         btnDeleteIngredient.setOnClickListener(v -> enterDeleteMode());
+
+        btnDeleteSelected.setOnClickListener(e -> {
+            if(selectedIngredients.isEmpty()){
+                Toast.makeText(this, "No ingredients selected", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            StringBuilder names = new StringBuilder();
+
+            for(Ingredient ingredient : selectedIngredients){
+                names.append(ingredient.getName()).append("\n");
+            }
+            new AlertDialog.Builder(this).setTitle("Delete Ingredients").setMessage("Are you sure you want to delete:\n\n" + names).setPositiveButton("Delete", (dialog, which) ->{
+                for(Ingredient ingredient : selectedIngredients){
+                    databaseHelper.deleteIngredient(ingredient.getId());
+                }
+                selectedIngredients.clear();
+                deleteMode = false;
+                btnDeleteSelected.setVisibility(Button.GONE);
+                loadIngredients();
+            }).setNegativeButton("Cancel", null).show();
+        });
 
         loadIngredients();
     }
@@ -41,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         updateMode = false;
         deleteMode = false;
+
+        btnDeleteSelected.setVisibility(Button.GONE);
 
         loadIngredients();
     }
@@ -66,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         deleteMode = true;
         updateMode = false;
 
+        selectedIngredients.clear();
+
+        btnDeleteSelected.setVisibility(Button.VISIBLE);
+
         Toast.makeText(this, "Select an ingredient to delete", Toast.LENGTH_SHORT).show();
 
         loadIngredients();
@@ -81,33 +116,23 @@ public class MainActivity extends AppCompatActivity {
     private void handleIngredientSelection(Ingredient ingredient) {
         if (updateMode) {
             openUpdateScreen(ingredient);
+            return;
+        }
+        if (deleteMode) {
+            if(!selectedIngredients.contains(ingredient)){
+                selectedIngredients.remove(ingredient);
+            }else{
+                selectedIngredients.add(ingredient);
+            }
+            Toast.makeText(this, selectedIngredients.size() + " selected", Toast.LENGTH_SHORT).show();
 
-        } else if (deleteMode) {
-            showDeleteConfirmation(ingredient);
+            adapter.notifyDataSetChanged();
         }
     }
-
     private void openUpdateScreen(Ingredient ingredient) {
         Intent intent = new Intent(MainActivity.this, AddIngredientsActivity.class);
         intent.putExtra("ingredient", ingredient);
 
         startActivity(intent);
-    }
-
-    private void showDeleteConfirmation(Ingredient ingredient) {
-        new AlertDialog.Builder(this).setTitle("Delete Ingredient").setMessage("Are you sure you want to delete " + ingredient.getName() + "?").setPositiveButton("Delete", (dialog, which) -> {
-            databaseHelper.deleteIngredient(ingredient.getId());
-            Toast.makeText(this, ingredient.getName() + " deleted", Toast.LENGTH_SHORT).show();
-
-            deleteMode = false;
-            updateMode = false;
-
-            loadIngredients();
-
-        }).setNegativeButton("Cancel", (dialog, which) -> {
-            deleteMode = false;
-            updateMode = false;
-            loadIngredients();
-        }).show();
     }
 }
