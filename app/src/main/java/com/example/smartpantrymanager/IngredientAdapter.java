@@ -1,34 +1,37 @@
 package com.example.smartpantrymanager;
 
 import android.view.*;
-import android.widget.TextView;
-import android.content.*;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-interface OnIngredientLongClickListener{
-    void onLongClick(Ingredient ingredient);
-}
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
-    private ArrayList<Ingredient> ingredients;
-    public IngredientAdapter(Context context, ArrayList<Ingredient> ingredients, OnIngredientLongClickListener listener) {
-        this.context = context;
+    public interface OnIngredientSelectedListener {
+        void onIngredientSelected(Ingredient ingredient);
+    }
+
+    private final ArrayList<Ingredient> ingredients;
+    private final boolean selectionMode;
+    private final OnIngredientSelectedListener listener;
+
+    public IngredientAdapter(ArrayList<Ingredient> ingredients, boolean selectionMode, OnIngredientSelectedListener listener) {
         this.ingredients = ingredients;
+        this.selectionMode = selectionMode;
         this.listener = listener;
     }
-    private Context context;
-    private OnIngredientLongClickListener listener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView IngredientName;
         TextView IngredientDetails;
+        CheckBox checkIngredient;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             IngredientName = itemView.findViewById(R.id.IngredientName);
             IngredientDetails = itemView.findViewById(R.id.IngredientDetails);
+            checkIngredient = itemView.findViewById(R.id.checkIngredient);
         }
     }
 
@@ -47,24 +50,27 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         holder.IngredientName.setText(ingredient.getName());
         holder.IngredientDetails.setText(ingredient.getQuantity() + " " + ingredient.getUnit());
 
-        holder.itemView.setOnClickListener(e -> {
-            if(context instanceof MainActivity){
-                MainActivity mainActivity = (MainActivity) context;
+        if (selectionMode) {
+            holder.checkIngredient.setVisibility(View.VISIBLE);
+        } else {
+            holder.checkIngredient.setVisibility(View.GONE);
+        }
 
-                if(!mainActivity.isUpdateMode()){
-                    return;
-                }
+        holder.checkIngredient.setChecked(false);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (!selectionMode) {
+                return;
             }
-            Intent intent = new Intent(context, AddIngredientsActivity.class);
-            intent.putExtra("ingredient", ingredient);
-            context.startActivity(intent);
-        });
 
-        holder.itemView.setOnLongClickListener(e -> {
-            listener.onLongClick(ingredient);
-            return true;
+            holder.checkIngredient.setChecked(true);
+
+            if (listener != null) {
+                listener.onIngredientSelected(ingredient);
+            }
         });
     }
+
     @Override
     public int getItemCount() {
         return ingredients.size();
