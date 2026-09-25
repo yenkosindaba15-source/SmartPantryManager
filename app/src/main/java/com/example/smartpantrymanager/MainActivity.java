@@ -1,7 +1,6 @@
 package com.example.smartpantrymanager;
 
 import android.content.Intent;
-import android.health.connect.datatypes.units.Length;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.*;
@@ -50,15 +49,31 @@ public class MainActivity extends AppCompatActivity {
             for(Ingredient ingredient : selectedIngredients){
                 names.append(ingredient.getName()).append("\n");
             }
-            new AlertDialog.Builder(this).setTitle("Delete Ingredients").setMessage("Are you sure you want to delete:\n\n" + names).setPositiveButton("Delete", (dialog, which) ->{
-                for(Ingredient ingredient : selectedIngredients){
+            new AlertDialog.Builder(this).setTitle("Delete Ingredients").setMessage("Are you sure you want to delete:\n\n" + names).setPositiveButton("Delete", (dialog, which) -> {
+                for (Ingredient ingredient : selectedIngredients) {
                     databaseHelper.deleteIngredient(ingredient.getId());
                 }
+
                 selectedIngredients.clear();
+
+                btnDeleteSelected.setText("Delete (0)");
+
                 deleteMode = false;
+
                 btnDeleteSelected.setVisibility(Button.GONE);
+
                 loadIngredients();
-            }).setNegativeButton("Cancel", null).show();
+            }).setNegativeButton("Cancel", (dialog, which) -> {
+                selectedIngredients.clear();
+
+                btnDeleteSelected.setText("Delete (0)");
+
+                deleteMode = false;
+
+                btnDeleteSelected.setVisibility(Button.GONE);
+
+                loadIngredients();
+            }).show();
         });
 
         loadIngredients();
@@ -70,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
 
         updateMode = false;
         deleteMode = false;
+
+        selectedIngredients.clear();
+
+        btnDeleteSelected.setText("Delete (0)");
 
         btnDeleteSelected.setVisibility(Button.GONE);
 
@@ -98,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         updateMode = false;
 
         selectedIngredients.clear();
+        btnDeleteSelected.setText("Delete (0)");
 
         btnDeleteSelected.setVisibility(Button.VISIBLE);
 
@@ -108,8 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadIngredients() {
         ArrayList<Ingredient> ingredients = databaseHelper.getAllIngredients();
+
         boolean selectionMode = updateMode || deleteMode;
-        adapter = new IngredientAdapter(ingredients, selectionMode, this::handleIngredientSelection);
+
+        adapter = new IngredientAdapter(ingredients, selectedIngredients, selectionMode, this::handleIngredientSelection);
+
         recyclerIngredients.setAdapter(adapter);
     }
 
@@ -118,19 +141,27 @@ public class MainActivity extends AppCompatActivity {
             openUpdateScreen(ingredient);
             return;
         }
+
         if (deleteMode) {
-            if(!selectedIngredients.contains(ingredient)){
+            if (selectedIngredients.contains(ingredient)) {
                 selectedIngredients.remove(ingredient);
-            }else{
+            } else {
                 selectedIngredients.add(ingredient);
             }
+
+            btnDeleteSelected.setText("Delete (" + selectedIngredients.size() + ")");
+
             Toast.makeText(this, selectedIngredients.size() + " selected", Toast.LENGTH_SHORT).show();
 
             adapter.notifyDataSetChanged();
         }
     }
+
     private void openUpdateScreen(Ingredient ingredient) {
+        updateMode = false;
+
         Intent intent = new Intent(MainActivity.this, AddIngredientsActivity.class);
+
         intent.putExtra("ingredient", ingredient);
 
         startActivity(intent);

@@ -11,13 +11,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         void onIngredientSelected(Ingredient ingredient);
     }
 
-    private ArrayList<Ingredient> selectedIngredients;
     private final ArrayList<Ingredient> ingredients;
+    private final ArrayList<Ingredient> selectedIngredients;
     private final boolean selectionMode;
     private final OnIngredientSelectedListener listener;
 
-    public IngredientAdapter(ArrayList<Ingredient> ingredients, boolean selectionMode, OnIngredientSelectedListener listener) {
+    public IngredientAdapter(ArrayList<Ingredient> ingredients, ArrayList<Ingredient> selectedIngredients, boolean selectionMode, OnIngredientSelectedListener listener) {
         this.ingredients = ingredients;
+        this.selectedIngredients = selectedIngredients;
         this.selectionMode = selectionMode;
         this.listener = listener;
     }
@@ -39,6 +40,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_item, parent, false);
 
         return new ViewHolder(view);
@@ -53,18 +55,18 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
         if (selectionMode) {
             holder.checkIngredient.setVisibility(View.VISIBLE);
-        } else {
-            holder.checkIngredient.setVisibility(View.GONE);
-        }
+            holder.checkIngredient.setChecked(selectedIngredients.contains(ingredient));
 
-        holder.checkIngredient.setChecked(selectedIngredients.contains(ingredient));
+        } else {
+
+            holder.checkIngredient.setVisibility(View.GONE);
+            holder.checkIngredient.setChecked(false);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (!selectionMode) {
                 return;
             }
-
-            holder.checkIngredient.setChecked(true);
 
             if (listener != null) {
                 listener.onIngredientSelected(ingredient);
