@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,12 @@ public class RecipeActivity extends AppCompatActivity {
     private void loadRecipes(){
         ArrayList<Recipe> recipes = databaseHelper.getAllRecipes();
 
-        recipeAdapter = new RecipeAdapter(recipes);
+        recipeAdapter = new RecipeAdapter(recipes, recipe -> {
+            Intent intent = new Intent(RecipeActivity.this, RecipeDetailsActivity.class);
+
+            intent.putExtra("recipe", recipe);
+            startActivity(intent);
+        });
 
         recyclerRecipes.setAdapter(recipeAdapter);
     }

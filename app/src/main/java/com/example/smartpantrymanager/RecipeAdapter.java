@@ -7,10 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
-    private final ArrayList<Recipe> recipes;
+    public interface OnRecipeClickListener {
+        void onRecipeClick(Recipe recipe);
+    }
 
-    public RecipeAdapter(ArrayList<Recipe> recipes) {
+    private final ArrayList<Recipe> recipes;
+    private final OnRecipeClickListener listener;
+
+    public RecipeAdapter(ArrayList<Recipe> recipes, OnRecipeClickListener listener) {
         this.recipes = recipes;
+        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,6 +45,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         holder.RecipeName.setText(recipe.getName());
         holder.RecipeDescription.setText(recipe.getDescription());
+
+        holder.itemView.setOnClickListener(e -> {
+            if(listener != null){
+                listener.onRecipeClick(recipe);
+            }
+        });
     }
 
     @Override

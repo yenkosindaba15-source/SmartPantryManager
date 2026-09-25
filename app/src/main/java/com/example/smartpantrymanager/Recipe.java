@@ -1,6 +1,8 @@
 package com.example.smartpantrymanager;
 
-public class Recipe {
+import java.io.Serializable;
+
+public class Recipe implements Serializable{
     private int id;
     private String name;
     private String description;
