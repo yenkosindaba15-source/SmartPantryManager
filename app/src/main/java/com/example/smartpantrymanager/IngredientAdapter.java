@@ -63,7 +63,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             holder.checkIngredient.setChecked(false);
         }
 
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(e -> {
             if (!selectionMode) {
                 return;
             }

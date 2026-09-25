@@ -38,7 +38,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                 btnSave.setText("Update Ingredient");
             }
         }
-        btnSave.setOnClickListener(v -> saveIngredient());
+        btnSave.setOnClickListener(e -> saveIngredient());
     }
     private void saveIngredient() {
         String name = etName.getText().toString().trim();

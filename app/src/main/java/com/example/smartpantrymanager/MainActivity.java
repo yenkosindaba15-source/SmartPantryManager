@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean updateMode = false;
     private boolean deleteMode = false;
     private ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
-    private Button btnDeleteSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,52 +27,19 @@ public class MainActivity extends AppCompatActivity {
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
         btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
         recyclerIngredients = findViewById(R.id.recyclerIngredients);
-        btnDeleteSelected = findViewById(R.id.btnDeleteSelected);
-
         databaseHelper = new DatabaseHelper(this);
 
         recyclerIngredients.setLayoutManager(new LinearLayoutManager(this));
 
-        btnAddIngredient.setOnClickListener(v -> showAddConfirmation());
-        btnUpdateIngredient.setOnClickListener(v -> enterUpdateMode());
-        btnDeleteIngredient.setOnClickListener(v -> enterDeleteMode());
+        btnAddIngredient.setOnClickListener(e -> showAddConfirmation());
+        btnUpdateIngredient.setOnClickListener(e -> enterUpdateMode());
 
-        btnDeleteSelected.setOnClickListener(e -> {
-            if(selectedIngredients.isEmpty()){
-                Toast.makeText(this, "No ingredients selected", Toast.LENGTH_SHORT).show();
-                return;
+        btnDeleteIngredient.setOnClickListener(e -> {
+            if(!deleteMode){
+                enterDeleteMode();
+            }else {
+                performDelete();
             }
-
-            StringBuilder names = new StringBuilder();
-
-            for(Ingredient ingredient : selectedIngredients){
-                names.append(ingredient.getName()).append("\n");
-            }
-            new AlertDialog.Builder(this).setTitle("Delete Ingredients").setMessage("Are you sure you want to delete:\n\n" + names).setPositiveButton("Delete", (dialog, which) -> {
-                for (Ingredient ingredient : selectedIngredients) {
-                    databaseHelper.deleteIngredient(ingredient.getId());
-                }
-
-                selectedIngredients.clear();
-
-                btnDeleteSelected.setText("Delete (0)");
-
-                deleteMode = false;
-
-                btnDeleteSelected.setVisibility(Button.GONE);
-
-                loadIngredients();
-            }).setNegativeButton("Cancel", (dialog, which) -> {
-                selectedIngredients.clear();
-
-                btnDeleteSelected.setText("Delete (0)");
-
-                deleteMode = false;
-
-                btnDeleteSelected.setVisibility(Button.GONE);
-
-                loadIngredients();
-            }).show();
         });
 
         loadIngredients();
@@ -88,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         selectedIngredients.clear();
 
-        btnDeleteSelected.setText("Delete (0)");
-
-        btnDeleteSelected.setVisibility(Button.GONE);
+        btnDeleteIngredient.setText("Delete");
 
         loadIngredients();
     }
@@ -117,13 +81,38 @@ public class MainActivity extends AppCompatActivity {
         updateMode = false;
 
         selectedIngredients.clear();
-        btnDeleteSelected.setText("Delete (0)");
+        btnDeleteIngredient.setText("Delete (0)");
 
-        btnDeleteSelected.setVisibility(Button.VISIBLE);
+        btnDeleteIngredient.setVisibility(Button.VISIBLE);
 
         Toast.makeText(this, "Select an ingredient to delete", Toast.LENGTH_SHORT).show();
 
         loadIngredients();
+    }
+
+    private void performDelete(){
+        if(selectedIngredients.isEmpty()){
+            Toast.makeText(this, "No ingredients selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StringBuilder names = new StringBuilder();
+        for(Ingredient ingredient : selectedIngredients){
+            names.append(ingredient.getName()).append("\n");
+        }
+
+        new AlertDialog.Builder(this).setTitle("Delete Ingredients").setMessage("Are you sure you want to delete:\n\n" + names).setPositiveButton("Delete", (dialog,which) ->{
+            for(Ingredient ingredient : selectedIngredients){
+                databaseHelper.deleteIngredient(ingredient.getId());
+            }
+
+            selectedIngredients.clear();
+            deleteMode = false;
+            btnDeleteIngredient.setText("Delete");
+
+            loadIngredients();
+
+        }).setNegativeButton("Cancel", null).show();
     }
 
     private void loadIngredients() {
@@ -149,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedIngredients.add(ingredient);
             }
 
-            btnDeleteSelected.setText("Delete (" + selectedIngredients.size() + ")");
+            btnDeleteIngredient.setText("Delete (" + selectedIngredients.size() + ")");
 
             Toast.makeText(this, selectedIngredients.size() + " selected", Toast.LENGTH_SHORT).show();
 
