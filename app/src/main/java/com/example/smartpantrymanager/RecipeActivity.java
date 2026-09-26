@@ -82,11 +82,19 @@ public class RecipeActivity extends AppCompatActivity {
         builder.append("You Can Make:\n\n");
 
         for(Recipe recipe : recipes){
-            if(databaseHelper.canMakeRecipe(
-                    recipe.getId()
-            )){
+            if(databaseHelper.canMakeRecipe(recipe.getId())){
                 builder.append("✓ ").append(recipe.getName()).append("\n");
+            }else{
+                builder.append("\n✖ ").append(recipe.getName()).append("\n");
+
+                ArrayList<String> missing = databaseHelper.getMissingIngredients(recipe.getId());
+                builder.append("Missing:\n");
+
+                for(String ingredient : missing){
+                    builder.append("- ").append(ingredient).append("\n");
+                }
             }
+            Recommendations.setText(builder.toString());
         }
 
         Recommendations.setText(builder.toString());

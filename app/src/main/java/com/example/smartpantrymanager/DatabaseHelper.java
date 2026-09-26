@@ -211,6 +211,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public ArrayList<String> getMissingIngredients(int recipeId) {
+        ArrayList<String> missing = new ArrayList<>();
+        ArrayList<String> recipeIngredients = getIngredientsForRecipe(recipeId);
+        ArrayList<Ingredient> pantryIngredients = getAllIngredients();
+
+        for (String recipeIngredient : recipeIngredients) {
+            boolean found = false;
+
+            for (Ingredient pantryIngredient : pantryIngredients) {
+
+                if (recipeIngredient.equalsIgnoreCase(pantryIngredient.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                missing.add(recipeIngredient);
+            }
+        }
+
+        return missing;
+    }
+
 
     //update method
     public int updateIngredient(Ingredient ingredient) {
