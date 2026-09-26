@@ -174,6 +174,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ingredients;
     }
 
+    public boolean canMakeRecipe(int recipeId) {
+        ArrayList<String> recipeIngredients = getIngredientsForRecipe(recipeId);
+        ArrayList<Ingredient> pantryIngredients = getAllIngredients();
+
+        for(String recipeIngredient : recipeIngredients){
+            boolean found = false;
+
+            for(Ingredient pantryIngredient : pantryIngredients){
+                if(recipeIngredient.equalsIgnoreCase(
+                        pantryIngredient.getName()
+                )){
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     //update method
     public int updateIngredient(Ingredient ingredient) {
         SQLiteDatabase db = this.getWritableDatabase();

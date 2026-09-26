@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
     private RecyclerView recyclerRecipes;
+    private TextView Recommendations;
     private RecipeAdapter recipeAdapter;
     private DatabaseHelper databaseHelper;
 
@@ -19,12 +21,15 @@ public class RecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe);
 
         recyclerRecipes = findViewById(R.id.recyclerRecipes);
+        Recommendations = findViewById(R.id.Recommendations);
+
         databaseHelper = new DatabaseHelper(this);
         recyclerRecipes.setLayoutManager(new LinearLayoutManager(this));
 
         insertSampleRecipes();
 
         loadRecipes();
+        showRecommendations();
     }
 
     private void insertSampleRecipes(){
@@ -67,5 +72,23 @@ public class RecipeActivity extends AppCompatActivity {
         });
 
         recyclerRecipes.setAdapter(recipeAdapter);
+    }
+
+    private void showRecommendations() {
+        ArrayList<Recipe> recipes = databaseHelper.getAllRecipes();
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("You Can Make:\n\n");
+
+        for(Recipe recipe : recipes){
+            if(databaseHelper.canMakeRecipe(
+                    recipe.getId()
+            )){
+                builder.append("✓ ").append(recipe.getName()).append("\n");
+            }
+        }
+
+        Recommendations.setText(builder.toString());
     }
 }
