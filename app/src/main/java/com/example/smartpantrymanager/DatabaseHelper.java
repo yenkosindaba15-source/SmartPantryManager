@@ -174,6 +174,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ingredients;
     }
 
+    public boolean ingredientExists(String ingredientName) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_NAME + "=?",
+                new String[]{ingredientName}
+        );
+
+        boolean exists = cursor.moveToFirst();
+
+        cursor.close();
+        db.close();
+
+        return exists;
+    }
+
     public boolean canMakeRecipe(int recipeId) {
         ArrayList<String> recipeIngredients = getIngredientsForRecipe(recipeId);
         ArrayList<Ingredient> pantryIngredients = getAllIngredients();
@@ -189,12 +204,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 }
             }
-
             if(!found){
                 return false;
             }
         }
-
         return true;
     }
 
