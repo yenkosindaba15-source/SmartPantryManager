@@ -177,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean ingredientExists(String ingredientName) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_NAME + "=?",
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_INGREDIENTS + " WHERE LOWER(" + COLUMN_NAME + ") = LOWER(?)",
                 new String[]{ingredientName}
         );
 

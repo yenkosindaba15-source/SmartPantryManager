@@ -42,6 +42,8 @@ public class AddIngredientsActivity extends AppCompatActivity {
     }
     private void saveIngredient() {
         String name = etName.getText().toString().trim();
+        name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+
         String quantityText = etQuantity.getText().toString().trim();
         String unit = etUnit.getText().toString().trim();
 
