@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
     //Ingredients constants
     private static final String DATABASE_NAME = "pantry.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private static final String TABLE_INGREDIENTS = "ingredients";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";

@@ -34,6 +34,25 @@ public class RecipeActivity extends AppCompatActivity {
             databaseHelper.insertRecipe(new Recipe("Tomato Sandwich", "Bread with tomatoes and butter."));
             databaseHelper.insertRecipe(new Recipe("Buttered Toast", "Toasted bread with butter."));
             databaseHelper.insertRecipe(new Recipe("Vegetable Rice", "Rice cooked with onions and tomatoes."));
+
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(1, "Eggs"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(1, "Cheese"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(1, "Butter"));
+
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Chicken Brest"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Rice"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Onions"));
+
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(3, "Bread"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(3, "Tomatoes"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(3, "Butter"));
+
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(4, "Bread"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(4, "Butter"));
+
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(5, "Rice"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(5, "Onions"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(5, "Tomatoes"));
         }
     }
 
