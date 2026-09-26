@@ -12,7 +12,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnUpdateIngredient;
     private Button btnDeleteIngredient;
     private Button btnRecipes;
-    private Button btnSuggestedRecipes;
     private RecyclerView recyclerIngredients;
     private IngredientAdapter adapter;
     private DatabaseHelper databaseHelper;
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
         btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
         btnRecipes = findViewById(R.id.btnRecipes);
-        btnSuggestedRecipes = findViewById(R.id.btnSuggestedRecipes);
 
         recyclerIngredients = findViewById(R.id.recyclerIngredients);
         databaseHelper = new DatabaseHelper(this);
@@ -50,11 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         btnRecipes.setOnClickListener( e -> {
             Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
-            startActivity(intent);
-        });
-
-        btnSuggestedRecipes.setOnClickListener(e -> {
-            Intent intent = new Intent(MainActivity.this, SuggestedRecipesActivity.class);
             startActivity(intent);
         });
 

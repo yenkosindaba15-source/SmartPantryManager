@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
     private RecyclerView recyclerRecipes;
-    private TextView Recommendations;
     private RecipeAdapter recipeAdapter;
     private DatabaseHelper databaseHelper;
 
@@ -21,7 +20,6 @@ public class RecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe);
 
         recyclerRecipes = findViewById(R.id.recyclerRecipes);
-        Recommendations = findViewById(R.id.Recommendations);
 
         databaseHelper = new DatabaseHelper(this);
         recyclerRecipes.setLayoutManager(new LinearLayoutManager(this));
@@ -29,7 +27,6 @@ public class RecipeActivity extends AppCompatActivity {
         insertSampleRecipes();
 
         loadRecipes();
-        showRecommendations();
     }
 
     private void insertSampleRecipes(){
@@ -44,7 +41,7 @@ public class RecipeActivity extends AppCompatActivity {
             databaseHelper.insertRecipeIngredient(new RecipeIngredient(1, "Cheese"));
             databaseHelper.insertRecipeIngredient(new RecipeIngredient(1, "Butter"));
 
-            databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Chicken Brest"));
+            databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Chicken Breast"));
             databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Rice"));
             databaseHelper.insertRecipeIngredient(new RecipeIngredient(2, "Onions"));
 
@@ -72,31 +69,5 @@ public class RecipeActivity extends AppCompatActivity {
         });
 
         recyclerRecipes.setAdapter(recipeAdapter);
-    }
-
-    private void showRecommendations() {
-        ArrayList<Recipe> recipes = databaseHelper.getAllRecipes();
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("You Can Make:\n\n");
-
-        for(Recipe recipe : recipes){
-            if(databaseHelper.canMakeRecipe(recipe.getId())){
-                builder.append("✓ ").append(recipe.getName()).append("\n");
-            }else{
-                builder.append("\n✖ ").append(recipe.getName()).append("\n");
-
-                ArrayList<String> missing = databaseHelper.getMissingIngredients(recipe.getId());
-                builder.append("Missing:\n");
-
-                for(String ingredient : missing){
-                    builder.append("- ").append(ingredient).append("\n");
-                }
-            }
-            Recommendations.setText(builder.toString());
-        }
-
-        Recommendations.setText(builder.toString());
     }
 }

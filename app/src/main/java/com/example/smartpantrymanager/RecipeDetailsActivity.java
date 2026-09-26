@@ -30,7 +30,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             StringBuilder builder = new StringBuilder();
 
             for (String ingredient : ingredients) {
-                builder.append("• ").append(ingredient).append("\n");
+                if(databaseHelper.ingredientExists(ingredient)){
+                    builder.append("✓ ").append(ingredient).append("\n");
+                }else{
+                    builder.append("✖ ").append(ingredient).append("\n");
+                }
             }
 
             Ingredients.setText(builder.toString());
