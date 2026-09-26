@@ -30,6 +30,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".RecipeDetailsActivity" />
+        <activity android:name=".SuggestedRecipesActivity" />
     </application>
 
 </manifest>
