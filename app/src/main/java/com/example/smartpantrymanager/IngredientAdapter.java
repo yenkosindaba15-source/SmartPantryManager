@@ -27,6 +27,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         TextView IngredientName;
         TextView IngredientDetails;
         CheckBox checkIngredient;
+        TextView IngredientExpiry;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -34,6 +35,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             IngredientName = itemView.findViewById(R.id.IngredientName);
             IngredientDetails = itemView.findViewById(R.id.IngredientDetails);
             checkIngredient = itemView.findViewById(R.id.checkIngredient);
+            IngredientExpiry = itemView.findViewById(R.id.IngredientExpiry);
         }
     }
 
@@ -52,6 +54,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
         holder.IngredientName.setText(ingredient.getName());
         holder.IngredientDetails.setText(ingredient.getQuantity() + " " + ingredient.getUnit());
+        holder.IngredientExpiry.setText("Expiry: " + ingredient.getExpiryDate());
 
         if (selectionMode) {
             holder.checkIngredient.setVisibility(View.VISIBLE);

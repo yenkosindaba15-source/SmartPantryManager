@@ -11,18 +11,20 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
     //Ingredients constants
     private static final String DATABASE_NAME = "pantry.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 12;
     private static final String TABLE_INGREDIENTS = "ingredients";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_QUANTITY = "quantity";
     private static final String COLUMN_UNIT = "unit";
+    private static final String COLUMN_EXPIRY_DATE = "expiry_date";
 
     //Recipe constants
     public static final String TABLE_RECIPES = "recipes";
     public static final String COLUMN_RECIPE_ID = "id";
     public static final String COLUMN_RECIPE_NAME = "name";
     public static final String COLUMN_RECIPE_DESCRIPTION = "description";
+    public static final String COLUMN_RECIPE_METHOD = "method";
 
     public static final String TABLE_RECIPE_INGREDIENTS = "recipe_ingredients";
     public static final String COLUMN_FK_RECIPE_ID = "recipe_id";
@@ -39,7 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_NAME + " TEXT NOT NULL, " +
                         COLUMN_QUANTITY + " INTEGER NOT NULL, " +
-                        COLUMN_UNIT + " TEXT NOT NULL" +
+                        COLUMN_UNIT + " TEXT NOT NULL, " +
+                        COLUMN_EXPIRY_DATE + " TEXT NOT NULL " +
                         ")";
 
         db.execSQL(createTable);
@@ -47,7 +50,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createRecipesTable = "CREATE TABLE " + TABLE_RECIPES + " (" +
                 COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_RECIPE_NAME + " TEXT NOT NULL, " +
-                COLUMN_RECIPE_DESCRIPTION + " TEXT NOT NULL)";
+                COLUMN_RECIPE_DESCRIPTION + " TEXT NOT NULL, " +
+                COLUMN_RECIPE_METHOD + " TEXT NOT NULL)";
 
         db.execSQL(createRecipesTable);
 
@@ -76,6 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, Ingredient.getName());
         values.put(COLUMN_QUANTITY, Ingredient.getQuantity());
         values.put(COLUMN_UNIT, Ingredient.getUnit());
+        values.put(COLUMN_EXPIRY_DATE, Ingredient.getExpiryDate());
 
         return db.insert(TABLE_INGREDIENTS, null, values);
     }
@@ -109,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ingredient.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)));
                 ingredient.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY)));
                 ingredient.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_UNIT)));
+                ingredient.setExpiryDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPIRY_DATE)));
 
                 ingredients.add(ingredient);
 
@@ -124,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_RECIPE_NAME, recipe.getName());
         values.put(COLUMN_RECIPE_DESCRIPTION, recipe.getDescription());
+        values.put(COLUMN_RECIPE_METHOD, recipe.getMethod());
 
         long result = db.insert(TABLE_RECIPES, null, values);
 
@@ -145,6 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_ID)));
                 recipe.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_NAME)));
                 recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_DESCRIPTION)));
+                recipe.setMethod(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_METHOD)));
 
                 recipes.add(recipe);
             }while (cursor.moveToNext());
@@ -197,6 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, ingredient.getName());
         values.put(COLUMN_QUANTITY, ingredient.getQuantity());
         values.put(COLUMN_UNIT, ingredient.getUnit());
+        values.put(COLUMN_EXPIRY_DATE, ingredient.getExpiryDate());
 
         return db.update(TABLE_INGREDIENTS, values, COLUMN_ID + "=?", new String[]{String.valueOf(ingredient.getId())});
     }

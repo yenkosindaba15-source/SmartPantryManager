@@ -8,6 +8,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
     private EditText etName;
     private EditText etQuantity;
     private EditText etUnit;
+    private EditText etExpiryDate;
     private Button btnSave;
     private TextView titleHeading;
 
@@ -23,6 +24,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         etQuantity = findViewById(R.id.etQuantity);
         etUnit = findViewById(R.id.etUnit);
+        etExpiryDate = findViewById(R.id.etExpiryDate);
         btnSave = findViewById(R.id.btnSave);
 
         databaseHelper = new DatabaseHelper(this);
@@ -34,6 +36,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                 etName.setText(selectedIngredient.getName());
                 etQuantity.setText(String.valueOf(selectedIngredient.getQuantity()));
                 etUnit.setText(selectedIngredient.getUnit());
+                etExpiryDate.setText(selectedIngredient.getExpiryDate());
                 titleHeading.setText("Update Ingredient");
                 btnSave.setText("Update Ingredient");
             }
@@ -46,8 +49,9 @@ public class AddIngredientsActivity extends AppCompatActivity {
 
         String quantityText = etQuantity.getText().toString().trim();
         String unit = etUnit.getText().toString().trim();
+        String expiryDate = etExpiryDate.getText().toString().trim();
 
-        if (name.isEmpty() || quantityText.isEmpty() || unit.isEmpty()) {
+        if (name.isEmpty() || quantityText.isEmpty() || unit.isEmpty() || expiryDate.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -60,7 +64,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
         }
 
         if (selectedIngredient == null) {
-            Ingredient newIngredient = new Ingredient(name, quantity, unit);
+            Ingredient newIngredient = new Ingredient(name, quantity, unit, expiryDate);
             long result = databaseHelper.insertIngredient(newIngredient);
 
             if (result != -1) {
@@ -74,6 +78,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
             selectedIngredient.setName(name);
             selectedIngredient.setQuantity(quantity);
             selectedIngredient.setUnit(unit);
+            selectedIngredient.setExpiryDate(expiryDate);
 
             int rowsUpdated = databaseHelper.updateIngredient(selectedIngredient);
 

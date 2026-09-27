@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView RecipeName;
     private TextView Ingredients;
+    private TextView RecipeMethod;
     private DatabaseHelper databaseHelper;
 
     @Override
@@ -17,6 +18,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         RecipeName = findViewById(R.id.RecipeName);
         Ingredients = findViewById(R.id.Ingredients);
+        RecipeMethod = findViewById(R.id.RecipeMethod);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -38,6 +40,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             }
 
             Ingredients.setText(builder.toString());
+            RecipeMethod.setText(recipe.getMethod());
         }
     }
 }

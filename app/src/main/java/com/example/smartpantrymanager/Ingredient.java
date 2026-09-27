@@ -7,20 +7,23 @@ public class Ingredient implements Serializable {
     private String name;
     private int quantity;
     private String unit;
+    private String expiryDate;
     public Ingredient() {
     }
 
-    public Ingredient(int id, String name, int quantity, String unit) {
+    public Ingredient(int id, String name, int quantity, String unit, String expiryDate) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
+        this.expiryDate = expiryDate;
     }
 
-    public Ingredient(String name, int quantity, String unit) {
+    public Ingredient(String name, int quantity, String unit, String expiryDate) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
+        this.expiryDate = expiryDate;
     }
 
     //getters and setters
@@ -50,5 +53,12 @@ public class Ingredient implements Serializable {
     }
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getExpiryDate(){
+        return expiryDate;
+    }
+    public void setExpiryDate(String expiryDate){
+        this.expiryDate = expiryDate;
     }
 }
