@@ -2,12 +2,14 @@ package com.example.smartpantrymanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.*;
 import androidx.recyclerview.widget.*;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView EmptyMessage;
     private Button btnAddIngredient;
     private Button btnUpdateIngredient;
     private Button btnDeleteIngredient;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EmptyMessage = findViewById(R.id.EmptyMessage);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
         btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
@@ -126,6 +129,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadIngredients() {
         ArrayList<Ingredient> ingredients = databaseHelper.getAllIngredients();
+
+        if(ingredients.isEmpty()){
+            EmptyMessage.setVisibility(View.VISIBLE);
+        }else{
+            EmptyMessage.setVisibility(View.GONE);
+        }
 
         boolean selectionMode = updateMode || deleteMode;
 

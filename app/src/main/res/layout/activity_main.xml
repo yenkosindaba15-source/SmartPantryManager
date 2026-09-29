@@ -35,6 +35,16 @@
         android:layout_marginBottom="20dp"
         android:text="Recipes" />
 
+    <TextView
+        android:id="@+id/EmptyMessage"
+        android:text="Add ingredients to get started"
+        android:textSize="16sp"
+        android:gravity="bottom"
+        android:visibility="gone"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerIngredients"
         android:layout_weight="1"
