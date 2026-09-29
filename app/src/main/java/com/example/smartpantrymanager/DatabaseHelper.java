@@ -85,6 +85,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_INGREDIENTS, null, values);
     }
 
+    private String normalizeIngredient(String ingredient) {
+        ingredient = ingredient.toLowerCase().trim();
+
+        switch (ingredient) {
+            case "tomatoes":
+                return "tomato";
+            case "onions":
+                return "onion";
+            case "potatoes":
+                return "potato";
+            case "eggs":
+                return "egg";
+            default:
+                return ingredient;
+        }
+    }
+
     public long insertRecipeIngredient(RecipeIngredient recipeIngredient) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -183,18 +200,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean ingredientExists(String ingredientName) {
-        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Ingredient> pantryIngredients = getAllIngredients();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_INGREDIENTS + " WHERE LOWER(" + COLUMN_NAME + ") = LOWER(?)",
-                new String[]{ingredientName}
-        );
-
-        boolean exists = cursor.moveToFirst();
-
-        cursor.close();
-        db.close();
-
-        return exists;
+        for (Ingredient ingredient : pantryIngredients) {
+            if (normalizeIngredient(ingredient.getName()).equals(normalizeIngredient(ingredientName))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //update method
