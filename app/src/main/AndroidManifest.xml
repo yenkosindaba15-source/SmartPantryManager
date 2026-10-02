@@ -13,6 +13,19 @@
         android:theme="@style/Theme.SmartPantryManager">
 
         <activity
+            android:name=".LoginActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SignupActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
@@ -33,18 +46,8 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".SignupActivity"
+            android:name=".SettingsActivity"
             android:exported="false" />
-
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
 
     </application>
 
