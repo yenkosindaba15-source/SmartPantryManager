@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.*;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private ImageButton btnSettings;
     private TextView EmptyMessage;
     private Button btnAddIngredient;
     private Button btnUpdateIngredient;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnSettings = findViewById(R.id.btnSettings);
         EmptyMessage = findViewById(R.id.EmptyMessage);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
@@ -37,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
 
         recyclerIngredients.setLayoutManager(new LinearLayoutManager(this));
+
+        btnSettings.setOnClickListener(e -> {
+            Intent intent = new Intent(new Intent(MainActivity.this, SettingsActivity.class));
+            startActivity(intent);
+        });
 
         btnAddIngredient.setOnClickListener(e -> showAddConfirmation());
         btnUpdateIngredient.setOnClickListener(e -> enterUpdateMode());
