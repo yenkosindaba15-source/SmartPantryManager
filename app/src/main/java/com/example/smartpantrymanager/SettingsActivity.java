@@ -31,6 +31,12 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnUnits.setOnClickListener(e -> {
+            Intent intent = new Intent(SettingsActivity.this, UnitsPreferenceActivity.class);
+
+            startActivity(intent);
+        });
+
         btnLogout.setOnClickListener(e -> {
             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
             startActivity(intent);
