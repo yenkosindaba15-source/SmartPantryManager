@@ -31,6 +31,12 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnExpire.setOnClickListener(e -> {
+            Intent intent = new Intent(SettingsActivity.this, ExpiringSoonActivity.class);
+
+            startActivity(intent);
+        });
+
         btnUnits.setOnClickListener(e -> {
             Intent intent = new Intent(SettingsActivity.this, UnitsPreferenceActivity.class);
 

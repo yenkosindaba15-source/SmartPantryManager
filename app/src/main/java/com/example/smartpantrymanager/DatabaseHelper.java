@@ -240,6 +240,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ingredients;
     }
 
+    public ArrayList<Ingredient> getExpiringSoonIngredients() {
+        ArrayList<Ingredient> expiringSoon = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = getAllIngredients();
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+
+        java.util.Date today = new java.util.Date();
+
+        for (Ingredient ingredient : ingredients) {
+            try {
+                java.util.Date expiry = sdf.parse(ingredient.getExpiryDate());
+
+                long difference = expiry.getTime() - today.getTime();
+
+                long days = difference / (1000 * 60 * 60 * 24);
+
+                if (days >= 0 && days <= 7) {
+                    expiringSoon.add(ingredient);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return expiringSoon;
+    }
+
     public long insertRecipe(Recipe recipe){
         SQLiteDatabase db = this.getWritableDatabase();
 

@@ -59,6 +59,10 @@
             android:name=".UnitsPreferenceActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ExpiringSoonActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
