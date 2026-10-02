@@ -37,6 +37,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name=".SignupActivity"
+            android:exported="false" />
+
 
     </application>
 
