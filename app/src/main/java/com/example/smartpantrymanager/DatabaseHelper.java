@@ -79,6 +79,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createRecipeIngredientsTable);
     }
 
+    //for user to edit profile (EditProfile):
+    public int updateUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_USERNAME, user.getUsername());
+        values.put(COLUMN_PASSWORD, user.getPassword());
+
+        return db.update(TABLE_USERS, values, COLUMN_USER_ID + "=?",
+                new String[]{String.valueOf(user.getId())
+                });
+    }
+
+    public User getUserByUsername(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?",
+                        new String[]{username}
+        );
+
+        User user = null;
+
+        if(cursor.moveToFirst()) {
+            user = new User();
+
+            user.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_USER_ID)));
+            user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME)));
+            user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL)));
+            user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PASSWORD)));
+        }
+
+        cursor.close();
+        db.close();
+
+        return user;
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);

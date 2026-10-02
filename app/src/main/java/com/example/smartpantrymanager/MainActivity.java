@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean updateMode = false;
     private boolean deleteMode = false;
     private ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
+    private String loggedInUsername;
 
 
     @Override
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnSettings.setOnClickListener(e -> {
             Intent intent = new Intent(new Intent(MainActivity.this, SettingsActivity.class));
+            intent.putExtra("username", loggedInUsername);
+
             startActivity(intent);
         });
 
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
             startActivity(intent);
         });
+
+        loggedInUsername = getIntent().getStringExtra("username");
 
         loadIngredients();
     }

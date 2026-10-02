@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(databaseHelper.loginUser(username, password)) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("username", username);
 
             startActivity(intent);
 
