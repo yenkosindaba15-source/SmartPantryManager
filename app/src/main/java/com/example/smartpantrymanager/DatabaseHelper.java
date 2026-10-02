@@ -9,9 +9,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    //User constants
+    private static final String TABLE_USERS = "users";
+    private static final String COLUMN_USER_ID = "user_id";
+    private static final String COLUMN_USERNAME = "username";
+    private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_PASSWORD = "password";
+
     //Ingredients constants
     private static final String DATABASE_NAME = "pantry.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     private static final String TABLE_INGREDIENTS = "ingredients";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
@@ -36,6 +43,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String createUsersTable =
+                "CREATE TABLE " + TABLE_USERS + " (" +
+                        COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_USERNAME + " TEXT NOT NULL UNIQUE, " +
+                        COLUMN_EMAIL + " TEXT NOT NULL, " +
+                        COLUMN_PASSWORD + " TEXT NOT NULL" +
+                        ")";
+
+        db.execSQL(createUsersTable);
+
         String createTable =
                 "CREATE TABLE " + TABLE_INGREDIENTS + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -64,11 +81,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INGREDIENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPE_INGREDIENTS);
 
         onCreate(db);
+    }
+    //create user method
+    //signup method
+    public long insertUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_USERNAME, user.getUsername());
+        values.put(COLUMN_EMAIL, user.getEmail());
+        values.put(COLUMN_PASSWORD, user.getPassword());
+
+        long result = db.insert(TABLE_USERS, null, values);
+
+        db.close();
+
+        return result;
+    }
+    //preventing duplicated usernames
+    public boolean usernameExists(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username});
+
+        boolean exists = cursor.moveToFirst();
+
+        cursor.close();
+        db.close();
+
+        return exists;
+    }
+    //checks if the user and password match in database
+    public boolean loginUser(String username, String password) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
+
+        boolean success = cursor.moveToFirst();
+
+        cursor.close();
+        db.close();
+
+        return success;
     }
 
     //create ingredient method
