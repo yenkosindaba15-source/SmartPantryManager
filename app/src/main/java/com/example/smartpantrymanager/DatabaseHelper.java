@@ -336,6 +336,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    public boolean canMakeRecipe(int recipeId) {
+        ArrayList<String> requiredIngredients = getIngredientsForRecipe(recipeId);
+
+        if (requiredIngredients.isEmpty()) {
+            return false;
+        }
+
+        for (String requiredIngredient : requiredIngredients) {
+            if (!ingredientExists(requiredIngredient)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public ArrayList<Recipe> getSuggestedRecipes() {
+        ArrayList<Recipe> suggestedRecipes = new ArrayList<>();
+        ArrayList<Recipe> allRecipes = getAllRecipes();
+
+        for (Recipe recipe : allRecipes) {
+            if (canMakeRecipe(recipe.getId())) {
+                suggestedRecipes.add(recipe);
+            }
+        }
+        return suggestedRecipes;
+    }
+
     //update method
     public int updateIngredient(Ingredient ingredient) {
         SQLiteDatabase db = this.getWritableDatabase();
