@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private boolean updateMode = false;
     private boolean deleteMode = false;
+    private boolean expiryAlertShown = false;
     private ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
     private String loggedInUsername;
 
@@ -88,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
         btnDeleteIngredient.setText("Delete");
 
         loadIngredients();
+
+        if(!expiryAlertShown){
+            checkExpiringSoonIngredients();
+        }
     }
 
     private void showAddConfirmation() {
@@ -160,6 +165,29 @@ public class MainActivity extends AppCompatActivity {
         adapter = new IngredientAdapter(ingredients, selectedIngredients, selectionMode, this::handleIngredientSelection);
 
         recyclerIngredients.setAdapter(adapter);
+    }
+
+    private void checkExpiringSoonIngredients() {
+        ArrayList<Ingredient> expiringSoon = databaseHelper.getExpiringSoonIngredients();
+
+        if (expiringSoon.isEmpty()) {
+            return;
+        }
+
+        expiryAlertShown = true;
+
+        StringBuilder message = new StringBuilder();
+
+        message.append("The following ingredients will expire within the next 7 days:\n\n");
+
+        for (Ingredient ingredient : expiringSoon) {
+            message.append("• ").append(ingredient.getName()).append("\n").append("Expiry: ").append(ingredient.getExpiryDate()).append("\n\n");
+        }
+
+        new AlertDialog.Builder(this).setTitle("Expiring Soon").setMessage(message.toString().trim()).setPositiveButton("View", (dialog, which) -> {
+            Intent intent = new Intent(MainActivity.this, ExpiringSoonActivity.class);
+            startActivity(intent);
+        }).setNegativeButton("OK", (dialog, which) -> dialog.dismiss()).show();
     }
 
     private void handleIngredientSelection(Ingredient ingredient) {
