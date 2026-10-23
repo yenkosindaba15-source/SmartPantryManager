@@ -47,7 +47,13 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
                 Intent intent = new Intent(SuggestedRecipesActivity.this, RecipeDetailsActivity.class);
                 intent.putExtra("recipe", recipe);
 
-                startActivity(intent);});
+                String suggestedExtra = databaseHelper.getSuggestedExtraIngredient(recipe);
+                if(suggestedExtra != null){
+                    intent.putExtra("suggestedExtra", suggestedExtra);
+                }
+
+                startActivity(intent);
+            });
 
             recyclerSuggestedRecipes.setAdapter(recipeAdapter);
         }

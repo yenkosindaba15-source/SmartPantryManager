@@ -2,6 +2,7 @@ package com.example.smartpantrymanager;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
@@ -9,6 +10,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView RecipeName;
     private TextView Ingredients;
     private TextView RecipeMethod;
+    private TextView SuggestedAdditionHeading;
+    private TextView SuggestedAddition;
     private DatabaseHelper databaseHelper;
 
     @Override
@@ -19,8 +22,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         RecipeName = findViewById(R.id.RecipeName);
         Ingredients = findViewById(R.id.Ingredients);
         RecipeMethod = findViewById(R.id.RecipeMethod);
+        SuggestedAdditionHeading = findViewById(R.id.SuggestedAdditionHeading);
+        SuggestedAddition = findViewById(R.id.SuggestedAddition);
 
         databaseHelper = new DatabaseHelper(this);
+
+        String suggestedExtra = getIntent().getStringExtra("suggestedExtra");
+        if(suggestedExtra != null && !suggestedExtra.isEmpty()){
+            SuggestedAdditionHeading.setVisibility(View.VISIBLE);
+            SuggestedAddition.setVisibility(View.VISIBLE);
+            SuggestedAddition.setText(suggestedExtra);
+        }
 
         Recipe recipe = (Recipe) getIntent().getSerializableExtra("recipe");
 
