@@ -1,40 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="20dp"
+    android:background="@color/green_very_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:text="Settings"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
+        android:textColor="@color/green_dark"
+        android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Manage your account and pantry preferences"
+        android:textSize="15sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginBottom="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnEditProfile"
         android:text="Edit Profile"
+        android:textColor="@color/green_dark"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_light"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="56dp" />
 
     <Button
         android:id="@+id/btnExpire"
         android:text="Expiring Soon Alerts"
+        android:textColor="@color/green_dark"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_light"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="56dp" />
 
     <Button
         android:id="@+id/btnUnits"
         android:text="Units Reference"
+        android:textColor="@color/green_dark"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_light"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnLogout"
         android:text="Logout"
-        android:backgroundTint="@color/Red"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        android:backgroundTint="@color/red_dark"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="54dp" />
 
 </LinearLayout>

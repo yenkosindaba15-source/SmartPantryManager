@@ -1,46 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/green_very_light">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Units Reference"
-            android:textSize="24sp"
+            android:textColor="@color/green_dark"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp"
+            android:text="Use these unit names when adding pantry ingredients"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Weight"
+            android:textColor="@color/green_primary"
+            android:textSize="19sp"
             android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_marginBottom="8dp" />
 
         <TextView
-            android:text="kg = Kilograms"
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="kg   = Kilograms\n\ng     = Grams"
+            android:textColor="@color/text_primary"
+            android:textSize="17sp"
+            android:padding="16dp"
+            android:background="@color/White" />
 
         <TextView
-            android:text="g = Grams"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volume"
+            android:textColor="@color/green_primary"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
-            android:text="L = Litres"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="L      = Litres\n\nml    = Millilitres\n\ncups  = Cups"
+            android:textColor="@color/text_primary"
+            android:textSize="17sp"
+            android:padding="16dp"
+            android:background="@color/White" />
 
         <TextView
-            android:text="ml = Mililitres"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Measurements"
+            android:textColor="@color/green_primary"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
-            android:text="units = Individual Items"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="tsp   = Teaspoons\n\ntbsp = Tablespoons\n\nunits = Individual items\n\nslices = Sliced items"
+            android:textColor="@color/text_primary"
+            android:textSize="17sp"
+            android:padding="16dp"
+            android:background="@color/White" />
 
     </LinearLayout>
 

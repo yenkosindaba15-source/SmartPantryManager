@@ -241,30 +241,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Ingredient> getExpiringSoonIngredients() {
-        ArrayList<Ingredient> expiringSoon = new ArrayList<>();
-        ArrayList<Ingredient> ingredients = getAllIngredients();
+        ArrayList<Ingredient> expiringSoonIngredients = new ArrayList<>();
+        ArrayList<Ingredient> allIngredients = getAllIngredients();
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
 
-        java.util.Date today = new java.util.Date();
+        dateFormat.setLenient(false);
 
-        for (Ingredient ingredient : ingredients) {
+        java.util.Calendar today = java.util.Calendar.getInstance();
+
+        today.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        today.set(java.util.Calendar.MINUTE, 0);
+        today.set(java.util.Calendar.SECOND, 0);
+        today.set(java.util.Calendar.MILLISECOND, 0);
+
+        for (Ingredient ingredient : allIngredients) {
+            String expiryDateText = ingredient.getExpiryDate();
+
+            if (expiryDateText == null || expiryDateText.trim().isEmpty()) {
+                continue;
+            }
+
             try {
-                java.util.Date expiry = sdf.parse(ingredient.getExpiryDate());
+                java.util.Date expiryDate = dateFormat.parse(expiryDateText.trim());
 
-                long difference = expiry.getTime() - today.getTime();
-
-                long days = difference / (1000 * 60 * 60 * 24);
-
-                if (days >= 0 && days <= 7) {
-                    expiringSoon.add(ingredient);
+                if (expiryDate == null) {
+                    continue;
                 }
 
-            } catch (Exception e) {
+                java.util.Calendar expiry = java.util.Calendar.getInstance();
+
+                expiry.setTime(expiryDate);
+
+                expiry.set(java.util.Calendar.HOUR_OF_DAY, 0);
+                expiry.set(java.util.Calendar.MINUTE, 0);
+                expiry.set(java.util.Calendar.SECOND, 0);
+                expiry.set(java.util.Calendar.MILLISECOND, 0);
+
+                long difference = expiry.getTimeInMillis() - today.getTimeInMillis();
+                long daysUntilExpiry = difference / (24 * 60 * 60 * 1000);
+
+                if (daysUntilExpiry >= 0 && daysUntilExpiry <= 7) {
+                    expiringSoonIngredients.add(ingredient);
+                }
+
+            } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
         }
-        return expiringSoon;
+        return expiringSoonIngredients;
     }
 
     public long insertRecipe(Recipe recipe){
@@ -362,6 +387,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return suggestedRecipes;
+    }
+
+    public String getSuggestedExtraIngredient(Recipe recipe){
+        String extraIngredient = null;
+
+        switch (recipe.getName()){
+            case "Buttered Toast":
+                extraIngredient = "Jam";
+                break;
+            case "Cheese Omlette":
+                extraIngredient = "Tomatoes";
+                break;
+            case "Chicken Rice Bowl":
+                extraIngredient = "Green Peppers";
+                break;
+            case "Tomato Sandwich":
+                extraIngredient = "Mayonnaise";
+                break;
+            case "Egg Sandwich":
+                extraIngredient = "Mayonnaise";
+                break;
+            case "Cheese Toast":
+                extraIngredient = "Tomatoes";
+                break;
+            case "Fired Rice":
+                extraIngredient = "Eggs";
+                break;
+            case "Chicken Sandwich":
+                extraIngredient = "Mayonnaies";
+                break;
+            case "Tuna Mayo Sandwich":
+                extraIngredient = "Tomatoes";
+                break;
+            case "Macaroni and Cheese":
+                extraIngredient = "Mayonnaise";
+                break;
+            case "Creamy Potato Salad":
+                extraIngredient = "Onions";
+                break;
+            case "Macaroni Salad":
+                extraIngredient = "Green Peppers";
+                break;
+            case "Chicken Macaroni":
+                extraIngredient = "Cheese";
+                break;
+            case "Savoury Mince and Rice":
+                extraIngredient = "Green Peppers";
+                break;
+            case "Sausage and Potato Fry":
+                extraIngredient = "Onions";
+                break;
+            case "Vegetable Macaroni":
+                extraIngredient = "Cheese";
+                break;
+        }
+        if (extraIngredient != null && ingredientExists(extraIngredient)){
+            return extraIngredient;
+        }
+        return null;
     }
 
     //update method

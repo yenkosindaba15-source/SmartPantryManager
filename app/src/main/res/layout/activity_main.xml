@@ -1,109 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="30dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/green_very_light"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
+    <!-- HEADER -->
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="18dp">
 
         <TextView
             android:id="@+id/Title"
-            android:text="Pantry Ingredients"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="Pantry Ingredients"
+            android:textColor="@color/green_dark"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btnSettings"
-            android:src="@android:drawable/ic_menu_manage"
-            android:background="@android:color/transparent"
             android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_manage"
+            android:tint="@color/green_dark"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Settings" />
 
     </LinearLayout>
 
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-
-    <Button
-        android:id="@+id/btnRecipes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="20dp"
-        android:text="Recipes" />
-
-    <Button
-        android:id="@+id/btnSuggestedRecipes"
-        android:text="Suggested"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="20dp"/>
-
-</LinearLayout>
-
-
-    <TextView
-        android:id="@+id/EmptyMessage"
-        android:text="Add ingredients to get started"
-        android:textSize="16sp"
-        android:gravity="bottom"
-        android:visibility="gone"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerIngredients"
-        android:layout_weight="1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnRecipes"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="Recipes"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:backgroundTint="@color/green_medium" />
+
+        <Button
+            android:id="@+id/btnSuggestedRecipes"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="Suggested"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:backgroundTint="@color/green_primary" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="4dp"
+            android:paddingBottom="6dp"
+            android:clipToPadding="false" />
+
+        <TextView
+            android:id="@+id/EmptyMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Add ingredients to get started"
+            android:textColor="@color/text_secondary"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/btnAddIngredient"
-        android:text="Add"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="5dp"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <Button
-        android:id="@+id/btnUpdateIngredient"
-        android:text="Update"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="5dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <Button
-        android:id="@+id/btnDeleteIngredient"
-        android:text="Delete"
-        android:layout_marginBottom="20dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnAddIngredient"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:text="Add"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:backgroundTint="@color/green_primary" />
+
+        <Button
+            android:id="@+id/btnUpdateIngredient"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:text="Update"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:backgroundTint="@color/green_medium" />
+
+        <Button
+            android:id="@+id/btnDeleteIngredient"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:text="Delete"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:backgroundTint="@color/green_dark" />
 
     </LinearLayout>
 

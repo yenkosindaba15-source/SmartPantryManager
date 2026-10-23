@@ -140,4 +140,16 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+
+    <color name="green_dark">#1B5E20</color>
+    <color name="green_primary">#2E7D32</color>
+    <color name="green_medium">#43A047</color>
+    <color name="green_light">#E8F5E9</color>
+    <color name="green_very_light">#F1F8F2</color>
+    <color name="green_border">#81C784</color>
+    <color name="text_primary">#1F2A1F</color>
+    <color name="text_secondary">#657365</color>
+    <color name="red_soft">#D96C6C</color>
+    <color name="red_dark">#A63D3D</color>
+
 </resources>

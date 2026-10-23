@@ -1,34 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="24dp"
+    android:background="@color/green_very_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:text="Edit Profile"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
+        android:textColor="@color/green_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Update your login details"
+        android:textColor="@color/text_secondary"
+        android:textSize="15sp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Username"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/Username"
         android:hint="Username"
+        android:singleLine="true"
+        android:background="@drawable/bg_input"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/text_primary"
+        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="54dp" />
+
+    <TextView
+        android:text="Password"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/Password"
         android:hint="Password"
         android:inputType="textPassword"
+        android:singleLine="true"
+        android:background="@drawable/bg_input"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_secondary"
+        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="54dp" />
 
     <Button
         android:id="@+id/btnSaveChanges"
         android:text="Save Changes"
+        android:textColor="@color/White"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_primary"
+        android:layout_marginTop="28dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="54dp" />
 
 </LinearLayout>

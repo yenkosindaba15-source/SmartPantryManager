@@ -6,16 +6,27 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="30dp"
+    android:background="@color/green_very_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RecipeActivity">
 
     <TextView
         android:text="Recipes"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
+        android:textColor="@color/green_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Browse all available recipes"
+        android:textColor="@color/text_secondary"
+        android:textSize="15sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/Recommendations"
@@ -27,6 +38,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerRecipes"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp" />

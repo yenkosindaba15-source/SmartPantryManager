@@ -5,13 +5,12 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SignupActivity extends AppCompatActivity {
-
     private EditText Username;
     private EditText Email;
     private EditText Password;
 
     private Button btnSignup;
-    private Button btnGoToLogin;
+    private TextView btnGoToLogin;
 
     private DatabaseHelper databaseHelper;
 

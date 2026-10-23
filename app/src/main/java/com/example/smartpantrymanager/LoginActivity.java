@@ -10,7 +10,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Password;
 
     private Button btnLogin;
-    private Button btnSignup;
+    private TextView btnSignup;
 
     private DatabaseHelper databaseHelper;
 

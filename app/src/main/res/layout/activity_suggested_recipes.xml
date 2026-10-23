@@ -4,23 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="30dp"
+    android:gravity="center"
+    android:background="@color/green_very_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SuggestedRecipesActivity">
 
     <TextView
+        android:text="Suggested Recipes"
+        android:textColor="@color/green_dark"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Recipes you can make with your pantry"
+        android:textColor="@color/text_secondary"
+        android:textSize="15sp"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
         android:id="@+id/NoSuggestions"
-        android:text="No recipes match your current pantry. Add more ingredients to see suggestions."
-        android:textSize="16sp"
+        android:text="No recipes match your current pantry.\n\n Add more ingredients to see suggestions."
+        android:textSize="17sp"
         android:gravity="center"
         android:visibility="gone"
-        android:layout_marginTop="24dp"
+        android:padding="28dp"
+        android:textAlignment="center"
+        android:textColor="@color/text_secondary"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSuggestedRecipes"
+        android:layout_marginTop="18dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
