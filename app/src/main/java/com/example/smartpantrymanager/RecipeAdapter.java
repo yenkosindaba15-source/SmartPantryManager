@@ -47,8 +47,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.RecipeDescription.setText(recipe.getDescription());
 
         holder.itemView.setOnClickListener(e -> {
-            if(listener != null){
-                listener.onRecipeClick(recipe);
+            if(listener != null){listener.onRecipeClick(recipe);
             }
         });
     }

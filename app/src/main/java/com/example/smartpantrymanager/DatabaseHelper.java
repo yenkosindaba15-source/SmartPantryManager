@@ -411,7 +411,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             case "Cheese Toast":
                 extraIngredient = "Tomatoes";
                 break;
-            case "Fired Rice":
+            case "Fried Rice":
                 extraIngredient = "Eggs";
                 break;
             case "Chicken Sandwich":
@@ -420,7 +420,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             case "Tuna Mayo Sandwich":
                 extraIngredient = "Tomatoes";
                 break;
-            case "Macaroni and Cheese":
+            case "Macaroni And Cheese":
                 extraIngredient = "Mayonnaise";
                 break;
             case "Creamy Potato Salad":
@@ -432,10 +432,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             case "Chicken Macaroni":
                 extraIngredient = "Cheese";
                 break;
-            case "Savoury Mince and Rice":
+            case "Savoury Mince And Rice":
                 extraIngredient = "Green Peppers";
                 break;
-            case "Sausage and Potato Fry":
+            case "Sausage And Potato Fry":
                 extraIngredient = "Onions";
                 break;
             case "Vegetable Macaroni":
