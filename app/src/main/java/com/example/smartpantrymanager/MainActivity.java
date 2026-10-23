@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ImageButton btnSettings;
     private TextView EmptyMessage;
+    private Button btnSuggestedRecipes;
     private Button btnAddIngredient;
     private Button btnUpdateIngredient;
     private Button btnDeleteIngredient;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnSettings = findViewById(R.id.btnSettings);
         EmptyMessage = findViewById(R.id.EmptyMessage);
+        btnSuggestedRecipes = findViewById(R.id.btnSuggestedRecipes);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
         btnUpdateIngredient = findViewById(R.id.btnUpdateIngredient);
         btnDeleteIngredient = findViewById(R.id.btnDeleteIngredient);
@@ -45,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(new Intent(MainActivity.this, SettingsActivity.class));
             intent.putExtra("username", loggedInUsername);
 
+            startActivity(intent);
+        });
+
+        btnSuggestedRecipes.setOnClickListener(e -> {
+            Intent intent = new Intent(MainActivity.this, SuggestedRecipesActivity.class);
             startActivity(intent);
         });
 

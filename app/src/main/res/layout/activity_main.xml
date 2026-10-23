@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/Title"
-            android:text="Smart Pantry Manager"
+            android:text="Pantry Ingredients"
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
@@ -35,21 +35,30 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/Pantry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Pantry Ingredients"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
     <Button
         android:id="@+id/btnRecipes"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="20dp"
         android:text="Recipes" />
+
+    <Button
+        android:id="@+id/btnSuggestedRecipes"
+        android:text="Suggested"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="20dp"/>
+
+</LinearLayout>
+
 
     <TextView
         android:id="@+id/EmptyMessage"
